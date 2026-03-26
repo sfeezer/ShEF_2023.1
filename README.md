@@ -1,3 +1,19 @@
+ # ShEF (ZuBoard 1CG Port)
+ The release of Vitis 2022.2 introduced significant breaking changes to the `xilsecure` library, making it incompatible with legacy ShEF attestation code. This fork modifies the original 2019.2 attestation process to support the modern `xilsecure` API and was implemented
+      using **Vitis 2023.2** on the **Avnet ZuBoard 1CG**.
+
+ ## Notable Files and Modifications
+ - **`boot/encrypt_bitstream.py`**: A utility to generate correctly formatted encrypted bitstreams. It handles the endianness conflict between Vivado (little-endian) and the PCAP (32-bit big-endian) and organizes data into the authenticated chunks required by the Security
+      Kernel.
+ - **`boot/zuboard1cg/`**: Replacing the original `boot/U96` directory, this folder contains the ported source code for the FSBL, PMUFW, Security Kernel, and Runtime applications.
+ - **`boot/zuboard1cg/include/`**: Contains  fixes for `xparameters.h` address mismatches found on the ZuBoard (and potentially other Zynq UltraScale+ devices). It also provides a centralized location for security key definitions.
+     - *Note:* The contents of this folder must be copied into the respective application source folders. These fixes are enabled via the `-DUSE_SHEF_FIXED_CONFIG` compiler flag.
+ - **`boot/zuboard1cg/BOOT.bin`**: A pre-compiled, functional boot image for the ZuBoard 1CG.
+ - **`boot/zuboard1cg/new.bif`**: An example Boot Image Format (BIF) file used for `bootgen`, detailing the correct CPU core assignments for the ShEF stack.
+ - **`boot/zuboard1cg/nec_shef.xsa`**: The hardware handoff file for the ZuBoard 1CG used to initialize the Vitis platform and support the ShEF Shield logic.
+
+ ---
+   
 # ShEF
 ShEF is a end-to-end framework to enable a secure Trusted Execution Environment (TEE) for cloud-based reconfigurable accelerators.
 ShEF runs on current cloud FPGAs, such as AWS F1 instances, without reliance on CPU TEEs.
