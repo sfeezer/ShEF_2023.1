@@ -27,17 +27,24 @@ UART_CMD_PULL_ATTESTATION = 0x0c
 UART_CMD_PUSH_BITSTREAM_KEY = 0x0d
 
 #Files
-my_key_file = "../keys/key.bin"
-attestation_key_file = "../keys/fpga_pk.bin"
-attestation_key_signature_file = "../keys/fpga_pk_sig.bin"
-shared_secret_file = "../keys/shared_secret.bin"
-bitstream_signature_file = "../keys/bitstream_sig.bin"
-bitstream_hash_file = "../keys/bitstream_hash.bin"
-bitstream_file = "../bitstream/bitstr.bin"
-ed25519_file = "../bin/ed25519"
-attestation_report_file = "../keys/attestation_report.bin"
-attestation_sig_file = "../keys/attestation_sig.bin"
-shared_secret_sig_file = "../keys/shared_secret_sig.bin"
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+my_key_file = os.path.join(_script_dir, "..", "keys", "key.bin")
+attestation_key_file = os.path.join(_script_dir, "..", "keys", "fpga_pk.bin")
+attestation_key_signature_file = os.path.join(_script_dir, "..", "keys", "fpga_pk_sig.bin")
+shared_secret_file = os.path.join(_script_dir, "..", "keys", "shared_secret.bin")
+bitstream_signature_file = os.path.join(_script_dir, "..", "keys", "bitstream_sig.bin")
+bitstream_hash_file = os.path.join(_script_dir, "..", "keys", "bitstream_hash.bin")
+bitstream_file = os.path.join(_script_dir, "..", "bitstream", "bitstr.bin")
+
+# Find ed25519 binary (check local and parent bin folders)
+_bin_name = "ed25519.exe" if os.name == 'nt' else "ed25519"
+ed25519_file = os.path.join(_script_dir, "bin", _bin_name)
+if not os.path.exists(ed25519_file):
+    ed25519_file = os.path.join(_script_dir, "..", "bin", _bin_name)
+
+attestation_report_file = os.path.join(_script_dir, "..", "keys", "attestation_report.bin")
+attestation_sig_file = os.path.join(_script_dir, "..", "keys", "attestation_sig.bin")
+shared_secret_sig_file = os.path.join(_script_dir, "..", "keys", "shared_secret_sig.bin")
 
 #Root public key
 root_mod = 0xc03658d5059ff69f8cb29a9c3668b82a28c4364d4e33cedbcf2bdd38da01dc11f94aba6a70ebe1c048c4a72143a466f5c0db746ef3d8fe6f424b1c13400ef56ea1138d454ffc3e0ae24883bc2dbd79f1e242bc036b5c111d386627bf7c551d7ae001d68c15cbe7a787f1792d23ab20182d071a04236f5255cc6dd38ddbce832471cac0caa0caceb57c261c3c3eaabeed1682e75a6b7574e5ffcecfea9995287f340ca60bb82b09007a15b905cb13a794ea0e0411e5fbb0d3a87c687fb6f9cd62671ab6fd849dceb9998360e29533438dba50c4296f33388831514fc9be260480fab39ddb72ab7c98010acc8a043c2a8f395b2d7c78716fc25fc83ed4c155a7d9962d08c00a995487736c9b6b65c2d98b1cc2629bad4981aa02c24f7bc1e6094ce09d05f1601288aa6baad7b440c7a25337cb22cd890dc16b24697f8bcd0752a3a468e7c5dd9c841aa4a3da3b4dd7af5ee3696c764bf8a7d4a69c998f87850cd5fb18662b0798389a013f4e3256be0cf65a7a43129e0c5944aaf82001c4599d64c8ccfef984215663178d6c2ede369709728ed0e2e3bd18292d3bf9430a50b54de9b79371768af7523aec03d05c2fce7a7eb831c0856baf77da792220c2d643912ea9313ac876ded97dc2de2a8ec50e25962e31ecff0d3b0f8e8381e7be83b6cd9b49ade86cea0ac523fd626732e51dbe6a6120cf08df6e1ae517576bf0782bd5
