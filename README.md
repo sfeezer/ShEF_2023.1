@@ -1,3 +1,5 @@
+# Incorrect files were copied into attestation source. Currently broken. Currently working on identifying issues for fix.
+ 
  # ShEF (ZuBoard 1CG Port)
  The release of Vitis 2022.2 introduced significant breaking changes to the `xilsecure` library, making it incompatible with legacy ShEF attestation code. This fork modifies the original 2019.2 attestation process to support the modern `xilsecure` API and was implemented
       using **Vitis 2023.2** on the **Avnet ZuBoard 1CG**.
