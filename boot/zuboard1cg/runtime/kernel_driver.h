@@ -8,8 +8,9 @@
 #define SRC_KERNEL_DRIVER_H_
 
 #include "xil_types.h"
+#include "shef_env.h"
 
-#define SHARED_MEM_BASE 0x300000
+#define SHARED_MEM_BASE SHEF_SHARED_MEM_BASE
 #define ATTESTATION_OFFSET 0x0
 #define ATTESTATION_SIZE 0x2B0
 #define NONCE_OFFSET 0x0
@@ -33,7 +34,7 @@
 
 #define SHARED_MEM_SIZE 0x360
 
-#define FPGA_AXI_BASE_ADDR 0xA0000000
+#define FPGA_AXI_BASE_ADDR SHEF_FPGA_AXI_BASE
 
 void wait_for_kernel(void);
 void signal_kernel(void);

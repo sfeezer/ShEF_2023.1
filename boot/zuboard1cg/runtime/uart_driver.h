@@ -8,8 +8,9 @@
 #define SRC_UART_DRIVER_H_
 
 #include "xil_types.h"
+#include "shef_env.h"
 
-#define FPGA_ADDER_BASE_ADDR	0xa0000000
+#define FPGA_ADDER_BASE_ADDR	SHEF_FPGA_AXI_BASE
 
 #define MAX_UART_BUFFER_SIZE	255
 #define UART_PACKET_HEADER_SIZE 3

@@ -1,7 +1,7 @@
 #ifndef IPI_H_
 #define IPI_H_
 
-#include "xparameters.h"
+#include "shef_env.h"
 #include "xinterrupt_wrap.h"
 #include "xscugic.h"
 #include "xttcps.h"
@@ -19,40 +19,15 @@
 #error "XPAR_XSCUGIC_0_BASEADDR is missing from xparameters.h. Regenerate the BSP."
 #endif
 
-/*
- * Vitis 2023.2 compatibility: The BSP no longer defines the old
- * XPAR_XIPIPS_TARGET_PSU_PMU_* macros. Map them to the new IPI target bitmasks.
- * These values come from the R5 BSP xparameters.h (IPI1 target list).
- * PMU IPI channels use masks 0x10000-0x80000.
- */
-#ifndef XPAR_XIPIPS_TARGET_PSU_PMU_0_CH0_MASK
-#define XPAR_XIPIPS_TARGET_PSU_PMU_0_CH0_MASK   0x10000U  /* PMU IPI0 mask */
-#endif
-
-/*
- * PMUFW uses two IPI instances:
- * - PMU IPI-0 for master->PMU requests (source mask 0x10000 on the receiver)
- * - PMU IPI-1 for PMU-initiated messages (source mask 0x20000 on the receiver)
- *
- * The security kernel receives the async signature on PMU IPI-1.
- */
-#ifndef XPAR_XIPIPS_TARGET_PSU_PMU_0_CH1_MASK
-#ifdef XPAR_XIPIPS_TARGET_PSU_PMU_1_CH0_MASK
-#define XPAR_XIPIPS_TARGET_PSU_PMU_0_CH1_MASK   XPAR_XIPIPS_TARGET_PSU_PMU_1_CH0_MASK
-#else
-#define XPAR_XIPIPS_TARGET_PSU_PMU_0_CH1_MASK   0x20000U  /* PMU IPI1 mask */
-#endif
-#endif
-
-#define IPI_PMU_PM_INT_MASK_SEND		XPAR_XIPIPS_TARGET_PSU_PMU_0_CH0_MASK
-#define IPI_PMU_PM_INT_MASK_RECV		XPAR_XIPIPS_TARGET_PSU_PMU_0_CH1_MASK
+#define IPI_PMU_PM_INT_MASK_SEND		SHEF_IPI_PMU_MASK_IPI0
+#define IPI_PMU_PM_INT_MASK_RECV		SHEF_IPI_PMU_MASK_IPI1
 /* Convert raw device tree interrupt specifier to GIC interrupt ID:
  * XGet_IntrId extracts SPI number, XGet_IntrOffset adds 32 for SPI type.
  * For IPI1 (R5-0): 0x4021 -> SPI 33 -> GIC ID 65 */
 #define SECURITY_KERNEL_IPI_INT_ID		(XGet_IntrId(XPAR_XIPIPSU_0_INTERRUPTS) + XGet_IntrOffset(XPAR_XIPIPSU_0_INTERRUPTS))
 #define IPI_MSG_LEN									8U
 #define IPI_HEADER_OFFSET						0x0U
-#define PMU_IPI_HEADER							0x1E0000 /* Sec Module ID in PMUFW */
+#define PMU_IPI_HEADER							SHEF_MODULE_ID_PMU /* Sec Module ID in PMUFW */
 
 #define IPI_CH1_IER									(XPAR_XIPIPSU_0_BASEADDR + 0x18U)
 #define IPI_CH1_ISR									(XPAR_XIPIPSU_0_BASEADDR + 0x10U)
