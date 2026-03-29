@@ -1,8 +1,8 @@
-# Incorrect files were copied into attestation source. Currently broken. Currently working on identifying issues for fix.
- 
  # ShEF (ZuBoard 1CG Port)
  The release of Vitis 2022.2 introduced significant breaking changes to the `xilsecure` library, making it incompatible with legacy ShEF attestation code. This fork modifies the original 2019.2 attestation process to support the modern `xilsecure` API and was implemented
       using **Vitis 2023.2** on the **Avnet ZuBoard 1CG**.
+
+ * For host.py to run, Makefile in boot\host\ needs to be executed to generate host keys 
 
  ## Notable Files and Modifications
  - **`boot/encrypt_bitstream.py`**: A utility to generate correctly formatted encrypted bitstreams. It handles the endianness conflict between Vivado (little-endian) and the PCAP (32-bit big-endian) and organizes data into the authenticated chunks required by the Security
